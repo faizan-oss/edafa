@@ -1,0 +1,56 @@
+@import "tailwindcss";
+
+:root {
+  --edaafa-dark: #121019;
+  --edaafa-navy: #1c1926;
+  --edaafa-gold: #c9a35c;
+  --edaafa-orange: #e8a34d;
+  --edaafa-light: #f5f4f8;
+  --edaafa-lavender: #eeecf4;
+  --edaafa-muted: #8a8694;
+  --edaafa-text: #1a1a1b;
+}
+
+@theme inline {
+  --color-edaafa-dark: var(--edaafa-dark);
+  --color-edaafa-navy: var(--edaafa-navy);
+  --color-edaafa-gold: var(--edaafa-gold);
+  --color-edaafa-orange: var(--edaafa-orange);
+  --color-edaafa-light: var(--edaafa-light);
+  --color-edaafa-lavender: var(--edaafa-lavender);
+  --color-edaafa-muted: var(--edaafa-muted);
+  --color-edaafa-text: var(--edaafa-text);
+  --font-sans: var(--font-dm-sans);
+  --font-display: var(--font-syne);
+  --font-mono: var(--font-geist-mono);
+}
+
+body {
+  font-family: var(--font-sans), system-ui, sans-serif;
+  color: var(--edaafa-text);
+  -webkit-font-smoothing: antialiased;
+}
+
+.font-display {
+  font-family: var(--font-display), var(--font-sans), system-ui, sans-serif;
+}
+
+.hero-glow {
+  background-color: var(--edaafa-dark);
+  background-image: radial-gradient(
+    circle at 85% 15%,
+    rgba(232, 163, 77, 0.22) 0%,
+    rgba(232, 163, 77, 0.06) 35%,
+    transparent 65%
+  );
+}
+
+.plus-pattern {
+  background-color: var(--edaafa-navy);
+  background-image: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.06) 1px,
+    transparent 1px
+  );
+  background-size: 24px 24px;
+}
