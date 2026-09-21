@@ -7,8 +7,9 @@ Lead-capture marketing site for idaafa — one page, dark editorial design, work
 ```
 frontend/   React + TypeScript + Vite (plain CSS)
 backend/    Express.js + MongoDB + Resend + Turnstile
-api/        Vercel serverless entry (wraps Express)
 ```
+
+Deployed on Vercel as one project with two services (`frontend` + `backend`) via root `vercel.json`.
 
 ## Quick start
 
@@ -48,9 +49,9 @@ npm run dev:backend
 
 One Vercel project serves the static site and the Express API on the same domain (`/api/contact`), so the form keeps using relative URLs.
 
-1. Push this repo to GitHub and import it in [Vercel](https://vercel.com) (root directory = repo root, not `frontend/`).
-2. Vercel will use `vercel.json` (`npm install` + `npm run build`, output `frontend/dist`).
-3. Add environment variables in the Vercel project settings:
+1. Push this repo to GitHub and import it in [Vercel](https://vercel.com) (Application Preset: **Services**, root = repo root).
+2. Vercel reads root `vercel.json` (Vite frontend + Express backend on one domain).
+3. Add environment variables in the Vercel project settings (optional for a visual-only deploy; `MONGO_URL` + `DB_NAME` needed for the contact form):
 
 | Variable | Notes |
 |---|---|
