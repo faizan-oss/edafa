@@ -225,14 +225,6 @@ textarea {
     animation: none !important;
   }
 
-  .tilt-card {
-    transform: none !important;
-  }
-
-  .tilt-card::after {
-    display: none;
-  }
-
   .service-stack-item {
     position: static;
   }

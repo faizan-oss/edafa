@@ -1,6 +1,5 @@
 import { beforeYouHire } from "../content";
 import { Reveal } from "./Reveal";
-import { TiltCard } from "./TiltCard";
 
 export function BeforeYouHire() {
   return (
@@ -16,24 +15,24 @@ export function BeforeYouHire() {
 
         <div className="before-grid">
           <Reveal>
-            <TiltCard as="article" className="before-col" maxTilt={6}>
+            <article className="before-col">
               <h3>{beforeYouHire.forYou.title}</h3>
               <ul>
                 {beforeYouHire.forYou.items.map((item) => (
                   <li key={item}>{item}</li>
                 ))}
               </ul>
-            </TiltCard>
+            </article>
           </Reveal>
           <Reveal delay={80}>
-            <TiltCard as="article" className="before-col is-skip" maxTilt={6}>
+            <article className="before-col is-skip">
               <h3>{beforeYouHire.skip.title}</h3>
               <ul>
                 {beforeYouHire.skip.items.map((item) => (
                   <li key={item}>{item}</li>
                 ))}
               </ul>
-            </TiltCard>
+            </article>
           </Reveal>
         </div>
       </div>

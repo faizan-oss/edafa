@@ -395,6 +395,42 @@
   margin-top: var(--space-2xl);
 }
 
+.door-cards,
+.door-shorts,
+.before-grid {
+  perspective: 1200px;
+}
+
+.door-cards .reveal,
+.door-shorts .reveal,
+.before-grid .reveal {
+  transform-origin: center top;
+}
+
+.door-cards .reveal.is-hidden,
+.door-shorts .reveal.is-hidden,
+.before-grid .reveal.is-hidden {
+  opacity: 0;
+  transform: rotateX(16deg) translateY(1.5rem);
+}
+
+.door-cards .reveal.is-visible,
+.door-shorts .reveal.is-visible,
+.before-grid .reveal.is-visible {
+  transform: rotateX(0deg) translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .door-cards .reveal.is-hidden,
+  .door-shorts .reveal.is-hidden,
+  .before-grid .reveal.is-hidden,
+  .door-cards .reveal.is-visible,
+  .door-shorts .reveal.is-visible,
+  .before-grid .reveal.is-visible {
+    transform: none;
+  }
+}
+
 .door-card,
 .door-short,
 .before-col {
@@ -404,17 +440,32 @@
   padding: var(--space-xl);
 }
 
-.door-cards,
-.door-shorts {
-  perspective: 1200px;
-}
-
 .door-card,
 .door-short {
-  border-color: color-mix(in srgb, var(--accent) 55%, var(--hairline));
+  border-color: var(--hairline);
+  color: inherit;
+  display: flex;
+  flex-direction: column;
   height: 100%;
-  transform-style: preserve-3d;
+  text-decoration: none;
+  transition:
+    border-color var(--transition),
+    background var(--transition);
   width: 100%;
+}
+
+.door-card:hover,
+.door-short:hover,
+.door-card:focus-visible,
+.door-short:focus-visible {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--bg-card) 86%, var(--accent) 14%);
+}
+
+.door-card:hover .path-cta,
+.door-short:hover .path-cta {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
 }
 
 .door-card.is-active {
@@ -496,13 +547,7 @@
 }
 
 .before-grid {
-  perspective: 1200px;
-}
-
-.before-col {
-  height: 100%;
-  transform-style: preserve-3d;
-  width: 100%;
+  display: grid;
 }
 
 .before-col.is-skip {
@@ -510,7 +555,7 @@
 }
 
 .door-cards .reveal,
-.door-cards .reveal > div,
+.door-shorts .reveal,
 .before-grid .reveal {
   display: flex;
   height: 100%;
@@ -537,35 +582,6 @@
 
 .why-item:hover {
   border-color: color-mix(in srgb, var(--accent) 40%, var(--hairline));
-}
-
-.tilt-card {
-  position: relative;
-}
-
-.tilt-card::after {
-  background: radial-gradient(
-    420px circle at var(--tilt-x, 50%) var(--tilt-y, 50%),
-    color-mix(in srgb, var(--accent) 18%, transparent),
-    transparent 55%
-  );
-  border-radius: inherit;
-  content: "";
-  inset: 0;
-  opacity: 0;
-  pointer-events: none;
-  position: absolute;
-  transition: opacity 0.25s ease;
-  z-index: 1;
-}
-
-.tilt-card:hover::after {
-  opacity: 1;
-}
-
-.tilt-card > *:not(.who-mark) {
-  position: relative;
-  z-index: 2;
 }
 
 .why-item h3 {

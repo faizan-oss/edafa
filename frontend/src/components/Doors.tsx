@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import { doors, type PathChoice } from "../content";
 import { Reveal } from "./Reveal";
-import { TiltCard } from "./TiltCard";
 
 type DoorsProps = {
   activePath: PathChoice | null;
@@ -20,8 +19,8 @@ export function Doors({ activePath }: DoorsProps) {
 
         <div className="door-cards">
           <Reveal delay={80}>
-            <TiltCard
-              as="article"
+            <Link
+              to="/services/validate-first"
               className={`door-card ${activePath === "validate" ? "is-active" : ""}`}
             >
               <span className="door-tag">{doors.validate.tag}</span>
@@ -33,19 +32,17 @@ export function Doors({ activePath }: DoorsProps) {
                 ))}
               </ul>
               <p className="door-footer">{doors.validate.footer}</p>
-              <Link to="/services/validate-first" className="path-cta">
-                {doors.validate.cta}
-              </Link>
-            </TiltCard>
+              <span className="path-cta">{doors.validate.cta}</span>
+            </Link>
           </Reveal>
 
           <Reveal delay={140}>
-            <div id="build-door">
-              <TiltCard
-                as="article"
-                className={`door-card ${activePath === "build" ? "is-active" : ""}`}
-              >
-                <span className="door-tag">{doors.build.tag}</span>
+            <Link
+              id="build-door"
+              to="/services/build-now"
+              className={`door-card ${activePath === "build" ? "is-active" : ""}`}
+            >
+              <span className="door-tag">{doors.build.tag}</span>
               <h3>{doors.build.title}</h3>
               <p className="door-line">{doors.build.line}</p>
               <ul>
@@ -54,27 +51,28 @@ export function Doors({ activePath }: DoorsProps) {
                 ))}
               </ul>
               <p className="door-footer">{doors.build.footer}</p>
-              <Link to="/services/build-now" className="path-cta">
-                {doors.build.cta}
-              </Link>
-              </TiltCard>
-            </div>
+              <span className="path-cta">{doors.build.cta}</span>
+            </Link>
           </Reveal>
         </div>
 
         <div className="door-shorts">
-          <TiltCard as="article" className="door-short" maxTilt={6}>
-            <span className="door-tag">{doors.fix.tag}</span>
-            <h3>{doors.fix.title}</h3>
-            <p>{doors.fix.line}</p>
-            <Link to="/services/fix-whats-broken">{doors.fix.link}</Link>
-          </TiltCard>
-          <TiltCard as="article" className="door-short" maxTilt={6}>
-            <span className="door-tag">{doors.keep.tag}</span>
-            <h3>{doors.keep.title}</h3>
-            <p>{doors.keep.line}</p>
-            <Link to="/services/keep-it-running">{doors.keep.link}</Link>
-          </TiltCard>
+          <Reveal delay={80}>
+            <Link to="/services/fix-whats-broken" className="door-short">
+              <span className="door-tag">{doors.fix.tag}</span>
+              <h3>{doors.fix.title}</h3>
+              <p>{doors.fix.line}</p>
+              <span className="path-cta">{doors.fix.link}</span>
+            </Link>
+          </Reveal>
+          <Reveal delay={160}>
+            <Link to="/services/keep-it-running" className="door-short">
+              <span className="door-tag">{doors.keep.tag}</span>
+              <h3>{doors.keep.title}</h3>
+              <p>{doors.keep.line}</p>
+              <span className="path-cta">{doors.keep.link}</span>
+            </Link>
+          </Reveal>
         </div>
 
         <p className="doors-closing">{doors.closing}</p>
