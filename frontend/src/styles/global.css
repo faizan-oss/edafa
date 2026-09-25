@@ -232,4 +232,8 @@ textarea {
   .tilt-card::after {
     display: none;
   }
+
+  .service-stack-item {
+    position: static;
+  }
 }

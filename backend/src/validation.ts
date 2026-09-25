@@ -4,7 +4,7 @@ export const contactSchema = z.object({
   name: z.string().trim().min(1, "We need a name to reply to.").max(120),
   email: z.string().trim().email("That email doesn't look right. Mind checking it?"),
   company: z.string().trim().max(200).optional(),
-  path: z.enum(["validate", "build", "not-sure"]),
+  path: z.enum(["validate", "build", "fix", "keep", "not-sure"]),
   message: z
     .string()
     .trim()

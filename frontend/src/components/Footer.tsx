@@ -1,4 +1,6 @@
+import { Link } from "react-router-dom";
 import { navLinks, site } from "../content";
+import { SectionLink } from "./SectionLink";
 
 export function Footer() {
   return (
@@ -6,26 +8,24 @@ export function Footer() {
       <div className="container footer-grid">
         <div>
           <p className="footer-brand">{site.name}</p>
-          <p className="footer-tagline">
-            {site.founders} · {site.tagline}
-          </p>
+          <p className="footer-tagline">{site.tagline}</p>
         </div>
 
         <div>
           <h4 className="footer-heading">Explore</h4>
           <ul className="footer-links">
             {navLinks
-              .filter((link) => link.href.startsWith("#"))
+              .filter((link) => link.href !== "/privacy")
               .map((link) => (
                 <li key={link.label}>
-                  <a href={link.href}>{link.label}</a>
+                  <SectionLink href={link.href}>{link.label}</SectionLink>
                 </li>
               ))}
             <li>
-              <a href="#contact">Contact</a>
+              <SectionLink href="/#contact">Contact</SectionLink>
             </li>
             <li>
-              <a href="/privacy">Privacy</a>
+              <Link to="/privacy">Privacy</Link>
             </li>
           </ul>
         </div>

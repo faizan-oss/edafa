@@ -1,26 +1,25 @@
 export const site = {
   name: "idaafa",
-  tagline: "adding more to every idea.",
-  founders: "Founded by Faraz & Faizan",
+  tagline: "Adding what's missing.",
   email: "contact@idaafa.com",
   whatsapp: "https://wa.me/918337945472",
   year: "2026",
+  headerCta: "Talk to us",
 } as const;
 
 export const navLinks = [
-  { label: "Two paths", href: "#paths" },
-  { label: "Why us", href: "#why" },
-  { label: "Who we are", href: "#who" },
+  { label: "Where you are", href: "/#doors" },
+  { label: "Why us", href: "/#why" },
+  { label: "Who we are", href: "/#who" },
   { label: "Privacy", href: "/privacy" },
 ] as const;
 
 export const hero = {
-  eyebrow: "A product studio for founders",
-  headline: ["Know if people", "actually want it", "— before you build it."],
-  sub: "We won't tell you your idea is brilliant. We'll find out if it's true — with real signal, in weeks — then build the thing properly if it is.",
-  founderLine: "Founded by Faraz & Faizan · adding more to every idea.",
-  primaryCta: "Validate first",
-  secondaryCta: "Build now",
+  eyebrow: "Product studio",
+  headline: "Test the idea before you build it.",
+  sub: "Most ideas fail because nobody actually needed them. We put a real prototype in front of real users, then tell you straight: build it, change it, or drop it.",
+  primaryCta: "Tell us the idea",
+  secondaryCta: "Already sure? Skip to the build",
 } as const;
 
 export const marqueeItems = [
@@ -37,79 +36,98 @@ export const shortVersion = {
   body: "idaafa exists for one moment: the one where you decide whether an idea deserves your next year. We make that decision an informed one — and if the answer is yes, we stay and build it with you.",
 } as const;
 
-export const twoPaths = {
-  section: "01 — Two paths in",
-  heading: ["Which one sounds", "like you?"],
-  intro:
-    "Some founders need proof before they commit. Others already know, and just need it built right. Both are reasonable. Pick yours — the form below remembers.",
+export const doors = {
+  section: "+ Where are you right now",
+  heading: "Start with where you actually are.",
+  closing:
+    "Not sure which one you are? Say so. We'll point you at the right one, even when it's the cheaper one.",
   validate: {
-    number: "01",
-    tag: "~6-week sprint",
+    tag: "Not sure yet",
     title: "Validate first",
-    tagline: "Not certain yet? Good — certainty is the deliverable.",
-    body: "We put your idea in front of real people, measure what they do (not what they say), and hand you a straight answer: build it, change it, or drop it.",
-    equations: [
-      "your idea + six weeks = an honest answer",
-      "real users + real signal = evidence, not opinion",
-      "evidence + craft = decision confidence",
+    line: "Six weeks to find out if the idea holds up, before you commit to building it.",
+    points: [
+      "A working prototype people can actually click through",
+      "Real users we recruit and put in front of it",
+      "Recorded sessions, so you see the reactions yourself",
+      "A straight answer at the end: build it, change it, or drop it",
     ],
-    cta: "Start with validation →",
+    footer: "Go ahead and build, and half the sprint fee comes off the bill.",
+    cta: "Start with validation",
   },
   build: {
-    number: "02",
-    tag: "End-to-end",
+    tag: "Already decided",
     title: "Build now",
-    tagline: "Already know? Then let's not waste the conviction.",
-    body: "We take it from first sketch to shipped product — and we'll still tell you honestly when a decision needs a second look.",
+    line: "You know where you're going. We build the real thing.",
     points: [
-      "Strategy, design, and engineering under one roof — nothing lost in handoff.",
-      "A working product, shipped in chapters you can react to.",
-      "You talk to the people building it. Because that's who we are.",
+      "A full product, web or mobile, start to finish",
+      "Built to go live, not a demo you throw away",
+      "Made for how people actually use it",
+      "Set up in your name. Yours from day one.",
     ],
-    cta: "Start the build →",
+    footer: "We've spent years on the hard parts. The stuff that touches money and stock.",
+    cta: "Start the build",
+  },
+  fix: {
+    tag: "Already built, not working",
+    title: "Fix what's broken",
+    line: "Built it with AI, or someone went quiet, and now it's failing. We go through it and tell you straight: keep it, fix it, or rebuild it.",
+    link: "See how that works",
+  },
+  keep: {
+    tag: "Live and needs care",
+    title: "Keep it running",
+    line: "Monthly engineering after launch, from people who know your product. Start when you need it, stop when you don't.",
+    link: "See how that works",
   },
 } as const;
 
 export const whyUs = {
-  section: "02 — Why us",
-  heading: ["No fake proof.", "No vanity", "metrics."],
-  intro:
-    "You won't find a wall of logos here, or testimonials we wrote ourselves. This is what we offer instead — and you can hold us to every line.",
-  items: [
-    {
-      title: "We say no when the answer is no.",
-      body: "A validation sprint that ends in “don't build it” is a good outcome — it just saved you a year. We'll never soften that to win the next invoice.",
-    },
-    {
-      title: "Small team, senior hands.",
-      body: "You work directly with the founders. The person who scopes your sprint is the person who builds it.",
-    },
-    {
-      title: "We stand behind everything we ship.",
-      body: "Design, code, and the honest memo that comes with it — our name is on all three.",
-    },
-  ],
+  section: "+ Why us",
+  heading: "We'll tell you to kill it.",
+  body: "Most studios only make money when they build something, so saying yes is always in their interest. We do it differently. The sprint pays for itself, which means we don't need your idea to be good. If the data says stop, we say stop. That is exactly why you can believe us when we say go.",
+  equation: "real prototype + real users + honest data = an answer you can trust",
 } as const;
 
 export const whoWeAre = {
-  section: "03 — Who we are",
-  heading: ["Two founders.", "One obsession", "with addition."],
-  body: "“Idaafa” means addition. We started this studio to do one thing well: add more to every idea — more evidence, more craft, more honesty about what's actually worth building.",
-  founderLine: "Founded by Faraz & Faizan · adding more to every idea.",
-  detail:
-    "Between us: products shipped, mistakes made, and a standing rule — we'd rather lose a project than let someone build the wrong thing. When you write to us, one of us reads it. When we reply, it's one of us typing.",
-  arabic: "إضافة — نُضيف إلى كل فكرة",
+  section: "+ Who we are",
+  heading: "A team that would rather be right than busy.",
+  body: "We take on a few projects at a time. Validation done properly can't be rushed or churned out. We've spent years building real products, web and mobile, including online stores on the Indian stack: Razorpay, Shiprocket, UPI, GST, all the plumbing that just has to work. We bring the same care to working out whether something is worth building in the first place. No jargon, no theatre. A straight answer, and the proof behind it.",
+} as const;
+
+export const beforeYouHire = {
+  section: "+ Before you hire us",
+  heading: "We're not for everyone.",
+  intro:
+    "Most studios only tell you what they can do. Here's where we're the wrong call. A team that tells you who it can't help is easier to trust on the rest.",
+  forYou: {
+    title: "This is for you if",
+    items: [
+      "You'd rather hear the truth than hear yes.",
+      "You've got an idea and you're willing to test it before you bet months on it.",
+      "You're ready to build, and you want it done properly and owned by you.",
+      "You've got something broken and you want to know where you actually stand.",
+      "You'll act on what you're shown, even when it stings.",
+    ],
+  },
+  skip: {
+    title: "Skip us if",
+    items: [
+      "You want a rubber stamp, not an answer. If your mind's made up and you just want proof you're right, we're the wrong studio.",
+      "You won't change or drop the idea no matter what the users say.",
+      "You want the cheapest build going, not one built to last.",
+      "You want the broken thing patched cheaply and you don't want to hear if it needs rebuilding.",
+    ],
+  },
 } as const;
 
 export const contact = {
-  section: "04 — Say hello",
-  heading: ["Tell us what", "you're circling."],
-  intro:
-    "A few honest lines are enough. One of us — Faraz or Faizan — reads every note and replies within 2 business days. Prefer talking?",
-  whatsapp: "WhatsApp us",
-  submit: "Send it over",
-  consent:
-    "By sending this, you agree we'll use your details to reply to your enquiry. We won't share them.",
+  section: "+ Talk to us",
+  heading: "Tell us the idea.",
+  intro: "Want it tested, or ready to build? Start here. No pitch, no pressure.",
+  whatsapp: "Or message us on WhatsApp",
+  submit: "Send",
+  consent: "Send this and you're fine with us using your details to reply. We won't share them.",
+  messagePlaceholder: "A couple of lines is plenty to start.",
   success: "Got it. We'll come back to you within two working days.",
   errors: {
     name: "We need a name to reply to.",
@@ -123,11 +141,143 @@ export const contact = {
       "Something broke on our end. Email us at contact@idaafa.com and we'll pick it up.",
   },
   options: [
-    { value: "validate", label: "Validate first" },
-    { value: "build", label: "Build now" },
+    { value: "validate", label: "I want to test the idea first" },
+    { value: "build", label: "I'm ready to build" },
+    { value: "fix", label: "Something I built is broken" },
+    { value: "keep", label: "I need ongoing help with a live product" },
     { value: "not-sure", label: "Not sure yet" },
   ],
 } as const;
+
+export type PathChoice = (typeof contact.options)[number]["value"];
+
+export const services = [
+  {
+    slug: "validate-first",
+    path: "validate",
+    number: "01",
+    tag: "Not sure yet",
+    title: "Validate first",
+    line: "Six weeks. A real prototype, real users, and an answer you can act on.",
+    body: "Most ideas don't get tested. They get built, launched, and then explained away. We do it the other way round. We build something people can actually use, put it in front of people who'd actually buy it, and watch what happens. Then we tell you what we saw, including the parts you won't like.",
+    groups: [
+      {
+        heading: "Week by week",
+        items: [
+          "Weeks 1 to 2. We pin down who this is for and the one thing that has to be true. We write down what counts as a yes and what counts as a no, before we see any results.",
+          "Weeks 3 to 4. We build the prototype. Something real enough to click through and react to. Not slides.",
+          "Week 5. We recruit real users who fit your customer, run the sessions, and record them.",
+          "Week 6. You get the answer and the proof behind it.",
+        ],
+      },
+      {
+        heading: "What you walk away with",
+        items: [
+          "A working prototype people can click through",
+          "Recorded sessions, so you see the reactions yourself",
+          "What we set out to test and whether it held",
+          "A straight answer: build it, change it, or drop it",
+          "If it's build, what to build first and why",
+        ],
+      },
+    ],
+    note: "What if the answer is don't build it? Then you saved the cost of building it, which is the point. You keep the prototype, the recordings and the findings.",
+    footer: "Go ahead and build, and half the sprint fee comes off the bill.",
+    cta: "Start with validation",
+    featured: true,
+  },
+  {
+    slug: "build-now",
+    path: "build",
+    number: "02",
+    tag: "Already decided",
+    title: "Build now",
+    line: "You already know. We build the real thing, and you own it.",
+    body: "Some founders don't need convincing. You've seen the demand, or you've run this before, and what you need is someone who can build it properly and not disappear. Web or mobile, start to finish, built to go live and hold up once real people are using it.",
+    groups: [
+      {
+        heading: "What we build",
+        items: [
+          "Full products, web or mobile, from nothing to live",
+          "The unglamorous parts that decide whether it works: payments, accounts, orders, stock, the admin screen you run it from",
+          "Online stores on the Indian stack: Razorpay, Shiprocket, UPI, GST, all the plumbing that just has to work",
+        ],
+      },
+      {
+        heading: "How it runs",
+        items: [
+          "We agree what's in, in writing. Before anything gets built we write down what we're building and what we're leaving out. You approve that list, or we argue about it first.",
+          "You see it as it happens. You should never have to ask how it's going.",
+          "You own it from day one. Code, hosting, every account, in your name from the start. Not handed over at the end, not held until the last invoice.",
+        ],
+      },
+    ],
+    footer: "We've spent years on the hard parts. The stuff that touches money and stock.",
+    cta: "Start the build",
+    featured: false,
+  },
+  {
+    slug: "fix-whats-broken",
+    path: "fix",
+    number: "03",
+    tag: "Already built, not working",
+    title: "Fix what's broken",
+    line: "You built something and it stopped working. We tell you if it's worth saving.",
+    body: "You got it most of the way with an AI builder, or a freelancer went quiet, or it worked fine until real people used it. Now payments are failing, or the data's wrong, or nobody can work out what the code is doing. You don't need a lecture about how it should have been built. You need someone to look at it and tell you where you actually stand.",
+    groups: [
+      {
+        heading: "What we do",
+        items: [
+          "Go through what you've got and find what's actually wrong, not just what's showing",
+          "Check the parts that cost you money when they break: payments, accounts, orders, data",
+          "Tell you what's salvageable and what isn't",
+          "Give you a fixed price to fix it, before any work starts",
+        ],
+      },
+      {
+        heading: "What you get at the end",
+        items: [
+          "A written verdict, in plain words: keep it, fix it, or rebuild it. Yours to keep either way, including if you take it to someone else.",
+        ],
+      },
+    ],
+    note: "Sometimes the honest answer is that patching it costs more than starting again, and we'll say so even though the smaller job is easier for us to sell. You get the true answer, not the profitable one.",
+    cta: "Send us what's broken",
+    featured: false,
+  },
+  {
+    slug: "keep-it-running",
+    path: "keep",
+    number: "04",
+    tag: "Live and needs care",
+    title: "Keep it running",
+    line: "Monthly engineering, for after launch. Start when you need it, stop when you don't.",
+    body: "Launch isn't the end of the work. Things break, customers ask for things, something needs changing every week, and none of it adds up to a full-time hire. This is for that. A set amount of engineering time each month from people who already know your product, without putting anyone on payroll.",
+    groups: [
+      {
+        heading: "What it covers",
+        items: [
+          "Fixes when something goes wrong",
+          "The next round of changes and features",
+          "Keeping the thing up, watched, and backed up",
+          "Someone who knows your product when you need an answer fast",
+        ],
+      },
+      {
+        heading: "How it works",
+        items: [
+          "Month to month. Pause it or stop it whenever you want.",
+          "If we built it, we already know it. If we didn't, we'll go through it first and tell you what we find.",
+        ],
+      },
+    ],
+    note: "We hand over everything at launch, so you're free to walk. Some people want us to stay anyway. This is how, without either of us pretending a one-off invoice covers work that never really stops.",
+    cta: "Ask about monthly support",
+    featured: false,
+  },
+] as const;
+
+export type Service = (typeof services)[number];
 
 export const privacy = {
   title: "Privacy",

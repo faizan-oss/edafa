@@ -1,24 +1,25 @@
 import { site, navLinks } from "../content";
+import { SectionLink } from "./SectionLink";
 
 export function Header() {
   return (
     <header className="site-header">
-      <a href="/" className="logo" aria-label={`${site.name} — home`}>
-        {site.name}
+      <SectionLink href="/" className="logo" aria-label={`${site.name} — home`}>
         <span className="logo-plus">+</span>
-      </a>
+        {site.name}
+      </SectionLink>
 
       <nav className="site-nav" aria-label="Primary">
         {navLinks.map((link) => (
-          <a key={link.label} href={link.href}>
+          <SectionLink key={link.label} href={link.href}>
             {link.label}
-          </a>
+          </SectionLink>
         ))}
       </nav>
 
-      <a href="#contact" className="btn btn-primary btn-lg">
-        Start a conversation
-      </a>
+      <SectionLink href="/#contact" className="btn btn-primary btn-lg">
+        {site.headerCta}
+      </SectionLink>
     </header>
   );
 }

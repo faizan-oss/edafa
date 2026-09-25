@@ -4,6 +4,8 @@ import { config } from "./config.js";
 const pathLabels: Record<string, string> = {
   validate: "Validate first",
   build: "Build now",
+  fix: "Fix what's broken",
+  keep: "Keep it running",
   "not-sure": "Not sure yet",
 };
 

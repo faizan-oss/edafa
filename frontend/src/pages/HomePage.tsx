@@ -1,18 +1,27 @@
 import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
+import { BeforeYouHire } from "../components/BeforeYouHire";
 import { ContactForm } from "../components/ContactForm";
+import { Doors } from "../components/Doors";
 import { Footer } from "../components/Footer";
 import { Header } from "../components/Header";
 import { Hero } from "../components/Hero";
-import { Marquee } from "../components/Marquee";
-import { ShortVersion } from "../components/ShortVersion";
-import { TwoPaths } from "../components/TwoPaths";
 import { WhoWeAre } from "../components/WhoWeAre";
 import { WhyUs } from "../components/WhyUs";
+import { contact, type PathChoice } from "../content";
 
-type PathChoice = "validate" | "build" | "not-sure";
+const pathValues = new Set<string>(contact.options.map((option) => option.value));
 
 export function HomePage() {
+  const [params] = useSearchParams();
   const [selectedPath, setSelectedPath] = useState<PathChoice | null>(null);
+
+  useEffect(() => {
+    const path = params.get("path");
+    if (path && pathValues.has(path)) {
+      setSelectedPath(path as PathChoice);
+    }
+  }, [params]);
 
   useEffect(() => {
     const domain = import.meta.env.VITE_PLAUSIBLE_DOMAIN;
@@ -52,16 +61,19 @@ export function HomePage() {
       <Header />
       <main>
         <Hero
-          onPathSelect={(path) => {
-            setSelectedPath(path);
-            document.getElementById("paths")?.scrollIntoView({ behavior: "smooth" });
+          onTellUs={() => {
+            setSelectedPath("validate");
+            document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
+          }}
+          onSkipToBuild={() => {
+            setSelectedPath("build");
+            document.getElementById("build-door")?.scrollIntoView({ behavior: "smooth" });
           }}
         />
-        <Marquee />
-        <ShortVersion />
-        <TwoPaths activePath={selectedPath} onPathSelect={setSelectedPath} />
+        <Doors activePath={selectedPath} />
         <WhyUs />
         <WhoWeAre />
+        <BeforeYouHire />
         <ContactForm selectedPath={selectedPath} onPathSelect={setSelectedPath} />
       </main>
       <Footer />
