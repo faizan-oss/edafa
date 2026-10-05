@@ -81,6 +81,33 @@ export const doors = {
   },
 } as const;
 
+export const serviceImages = {
+  validate: {
+    src: "/images/validate-first.webp",
+    alt: "Product validation interface",
+    width: 1200,
+    height: 800,
+  },
+  build: {
+    src: "/images/build-now.webp",
+    alt: "A product assembled from connected modules",
+    width: 1200,
+    height: 800,
+  },
+  fix: {
+    src: "/images/fix-whats-broken.webp",
+    alt: "Two broken pieces being reconnected",
+    width: 1200,
+    height: 800,
+  },
+  keep: {
+    src: "/images/keep-it-running.webp",
+    alt: "A live service kept running",
+    width: 1200,
+    height: 800,
+  },
+} as const;
+
 export const whyUs = {
   section: "+ Why us",
   heading: "We'll tell you to kill it.",
@@ -278,6 +305,120 @@ export const services = [
 ] as const;
 
 export type Service = (typeof services)[number];
+
+export const serviceHub = {
+  label: "+ Services",
+  heading: "Four ways in.",
+  whichHeading: "Which one",
+  whichBody: doors.closing,
+  cta: "Talk to us",
+} as const;
+
+export const serviceShared = {
+  owns: {
+    heading: "Who owns it after you build",
+    body: "You own it from day one. Code, hosting, every account, in your name from the start. Not handed over at the end, not held until the last invoice.",
+  },
+  cost: {
+    heading: "What it costs",
+    body: "We agree what's in, in writing, before anything gets built. Go ahead and build, and half the sprint fee comes off the bill.",
+  },
+} as const;
+
+export const serviceFaqs: Record<string, readonly { question: string; answer: string }[]> = {
+  "validate-first": [
+    {
+      question: "What's included?",
+      answer:
+        "A working prototype people can click through, recorded sessions, what we set out to test and whether it held, and a straight answer: build it, change it, or drop it. If it's build, you also get what to build first and why.",
+    },
+    {
+      question: "What assumptions do you test?",
+      answer:
+        "Who this is for, and the one thing that has to be true. We write down what counts as a yes and what counts as a no before we see any results.",
+    },
+    {
+      question: "What if the answer is don't build it?",
+      answer:
+        "Then you saved the cost of building it, which is the point. You keep the prototype, the recordings and the findings.",
+    },
+    {
+      question: "What if we build afterwards?",
+      answer: "Go ahead and build, and half the sprint fee comes off the bill.",
+    },
+  ],
+  "build-now": [
+    {
+      question: "What do you build?",
+      answer:
+        "Full products, web or mobile, from nothing to live. That includes the parts that decide whether it works: payments, accounts, orders, stock, and the admin screen you run it from. Online stores can sit on the Indian stack: Razorpay, Shiprocket, UPI, GST.",
+    },
+    {
+      question: "What do we own at the end?",
+      answer:
+        "You own it from day one. Code, hosting, every account, in your name from the start. Not handed over at the end, not held until the last invoice.",
+    },
+    {
+      question: "How do we see progress?",
+      answer: "You see it as it happens. You should never have to ask how it's going.",
+    },
+    {
+      question: "What happens after it goes live?",
+      answer:
+        "You can walk. If you want someone who already knows the product to keep changing it, that's Keep it running: monthly engineering you can start when you need it and stop when you don't.",
+    },
+  ],
+  "fix-whats-broken": [
+    {
+      question: "Who is this for?",
+      answer:
+        "You got it most of the way with an AI builder, or a freelancer went quiet, or it worked until real people used it. Payments are failing, the data's wrong, or nobody can work out what the code is doing.",
+    },
+    {
+      question: "What do we get from the look?",
+      answer:
+        "A written verdict, in plain words: keep it, fix it, or rebuild it. Yours to keep either way, including if you take it to someone else. If it needs fixing, you get a fixed price before any work starts.",
+    },
+    {
+      question: "Will you just patch it?",
+      answer:
+        "No. Sometimes patching it costs more than starting again, and we'll say so even though the smaller job is easier for us to sell.",
+    },
+    {
+      question: "Fix it or rebuild it?",
+      answer:
+        "That's the verdict. If it should be rebuilt, Build now is the next door. If it should stay live and be looked after, that's Keep it running.",
+    },
+  ],
+  "keep-it-running": [
+    {
+      question: "What's included?",
+      answer:
+        "Fixes when something goes wrong, the next round of changes and features, keeping it up, watched, and backed up, and someone who knows your product when you need an answer fast.",
+    },
+    {
+      question: "Do you already know the product?",
+      answer:
+        "If we built it, we already know it. If we didn't, we'll go through it first and tell you what we find.",
+    },
+    {
+      question: "What if something breaks while it's live?",
+      answer:
+        "That's part of the month. Fixes when something goes wrong, from someone who already knows the product.",
+    },
+    {
+      question: "Can we stop?",
+      answer: "Month to month. Pause it or stop it whenever you want.",
+    },
+  ],
+};
+
+export const serviceNext: Record<string, readonly string[]> = {
+  "validate-first": ["build-now", "fix-whats-broken", "keep-it-running"],
+  "build-now": ["keep-it-running", "validate-first", "fix-whats-broken"],
+  "fix-whats-broken": ["build-now", "keep-it-running", "validate-first"],
+  "keep-it-running": ["build-now", "fix-whats-broken", "validate-first"],
+};
 
 export const privacy = {
   title: "Privacy",

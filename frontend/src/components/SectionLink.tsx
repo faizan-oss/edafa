@@ -43,6 +43,7 @@ export function SectionLink({
   href,
   className,
   children,
+  onClick,
   ...rest
 }: {
   href: string;
@@ -54,7 +55,7 @@ export function SectionLink({
 
   if (hashIndex === -1) {
     return (
-      <Link to={href} className={className} {...rest}>
+      <Link to={href} className={className} onClick={onClick} {...rest}>
         {children}
       </Link>
     );
@@ -67,7 +68,8 @@ export function SectionLink({
       to={{ pathname: "/", hash }}
       className={className}
       {...rest}
-      onClick={() => {
+      onClick={(event) => {
+        onClick?.(event);
         if (location.pathname === "/" && location.hash === `#${hash}`) {
           scrollToSection(hash);
         }

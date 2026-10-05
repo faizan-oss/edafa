@@ -22,6 +22,9 @@ export function Footer() {
                 </li>
               ))}
             <li>
+              <Link to="/services">Services</Link>
+            </li>
+            <li>
               <SectionLink href="/#contact">Contact</SectionLink>
             </li>
             <li>

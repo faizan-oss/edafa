@@ -255,21 +255,24 @@ export function ContactForm({ selectedPath, onPathSelect }: ContactFormProps) {
                   Where are you right now?
                   <span className="form-dot" aria-hidden />
                 </legend>
-                <div className="path-pills" role="radiogroup" aria-label="Where are you right now?">
+                <div className="path-options">
                   {contact.options.map((option) => (
-                    <button
+                    <label
                       key={option.value}
-                      type="button"
-                      role="radio"
-                      aria-checked={form.path === option.value}
-                      className={`path-pill ${form.path === option.value ? "is-active" : ""}`}
-                      onClick={() => {
-                        setForm({ ...form, path: option.value as PathChoice });
-                        onPathSelect(option.value as PathChoice);
-                      }}
+                      className={`path-option ${form.path === option.value ? "is-active" : ""}`}
                     >
-                      {option.label}
-                    </button>
+                      <input
+                        type="radio"
+                        name="path"
+                        value={option.value}
+                        checked={form.path === option.value}
+                        onChange={() => {
+                          setForm({ ...form, path: option.value as PathChoice });
+                          onPathSelect(option.value as PathChoice);
+                        }}
+                      />
+                      <span>{option.label}</span>
+                    </label>
                   ))}
                 </div>
               </fieldset>
