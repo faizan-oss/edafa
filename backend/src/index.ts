@@ -1,5 +1,5 @@
 import { config } from "./config.js";
-import app from "./app.js";
+import app from "./app.mjs";
 import { closeDb, connectDb } from "./db.js";
 
 async function start() {
