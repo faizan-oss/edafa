@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { contact, site, type PathChoice } from "../content";
-import { Reveal } from "./Reveal";
+import { VerdictGlyph } from "./VerdictGlyph";
 
 type ContactFormProps = {
   selectedPath: PathChoice | null;
@@ -11,7 +11,7 @@ type FormState = {
   name: string;
   email: string;
   company: string;
-  path: PathChoice;
+  path: PathChoice | null;
   message: string;
   website: string;
 };
@@ -42,23 +42,6 @@ function isValidEmail(value: string) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 }
 
-function FieldLabel({
-  htmlFor,
-  children,
-  required = false,
-}: {
-  htmlFor?: string;
-  children: React.ReactNode;
-  required?: boolean;
-}) {
-  return (
-    <label htmlFor={htmlFor} className="form-label">
-      {children}
-      {required && <span className="form-dot" aria-hidden />}
-    </label>
-  );
-}
-
 export function ContactForm({ selectedPath, onPathSelect }: ContactFormProps) {
   const turnstileRef = useRef<HTMLDivElement>(null);
   const widgetIdRef = useRef<string>("");
@@ -67,7 +50,7 @@ export function ContactForm({ selectedPath, onPathSelect }: ContactFormProps) {
     name: "",
     email: "",
     company: "",
-    path: "not-sure",
+    path: null,
     message: "",
     website: "",
   });
@@ -103,6 +86,9 @@ export function ContactForm({ selectedPath, onPathSelect }: ContactFormProps) {
     if (!isValidEmail(form.email.trim())) {
       next.email = contact.errors.email;
     }
+    if (!form.path) {
+      next.path = contact.pathError;
+    }
     if (form.message.trim().length < 20) {
       next.message = contact.errors.message;
     }
@@ -115,7 +101,7 @@ export function ContactForm({ selectedPath, onPathSelect }: ContactFormProps) {
 
     const fieldErrors = validate();
     setErrors(fieldErrors);
-    if (Object.keys(fieldErrors).length > 0) {
+    if (Object.keys(fieldErrors).length > 0 || !form.path) {
       return;
     }
 
@@ -181,8 +167,8 @@ export function ContactForm({ selectedPath, onPathSelect }: ContactFormProps) {
 
   if (success) {
     return (
-      <section id="contact" className="contact" aria-labelledby="contact-heading">
-        <div className="container">
+      <section id="contact" className="sec contact" aria-labelledby="contact-heading">
+        <div className="wrap">
           <div className="form-success">{contact.success}</div>
         </div>
       </section>
@@ -190,143 +176,143 @@ export function ContactForm({ selectedPath, onPathSelect }: ContactFormProps) {
   }
 
   return (
-    <section id="contact" className="contact" aria-labelledby="contact-heading">
-      <div className="container contact-layout">
-        <Reveal>
-          <div className="contact-copy">
-            <p className="section-label">{contact.section}</p>
-            <h2 id="contact-heading" className="section-heading contact-heading">
-              {contact.heading}
-            </h2>
-            <p className="contact-intro">{contact.intro}</p>
-
-            <a href={`mailto:${site.email}`} className="contact-email">
+    <section id="contact" className="sec contact" aria-labelledby="contact-heading">
+      <div className="wrap contact-grid">
+        <div>
+          <span className="tag">{contact.section}</span>
+          <h2 id="contact-heading">{contact.heading}</h2>
+          <p className="lead">{contact.intro}</p>
+          <div className="reach">
+            <a href={`mailto:${site.email}`}>
               {site.email}
+              <span>email</span>
+            </a>
+            <a
+              href={site.whatsapp}
+              target="_blank"
+              rel="noopener"
+              onClick={handleWhatsAppClick}
+            >
+              {contact.whatsapp}
+              <span>chat</span>
             </a>
           </div>
-        </Reveal>
+        </div>
 
-        <Reveal delay={100}>
-          <div className="contact-form-wrap">
-            {bannerError && <div className="form-error-banner">{bannerError}</div>}
+        <form className="contact-form" onSubmit={handleSubmit} noValidate>
+          {bannerError ? <div className="form-error-banner">{bannerError}</div> : null}
 
-            <form className="contact-form" onSubmit={handleSubmit} noValidate>
-              <div className={`form-field ${errors.name ? "has-error" : ""}`}>
-                <FieldLabel htmlFor="name" required>
-                  Your name
-                </FieldLabel>
-                <input
-                  id="name"
-                  name="name"
-                  value={form.name}
-                  onChange={(event) => setForm({ ...form, name: event.target.value })}
-                  autoComplete="name"
-                />
-                {errors.name && <p className="field-error">{errors.name}</p>}
-              </div>
-
-              <div className={`form-field ${errors.email ? "has-error" : ""}`}>
-                <FieldLabel htmlFor="email" required>
-                  Email
-                </FieldLabel>
-                <input
-                  id="email"
-                  name="email"
-                  type="email"
-                  value={form.email}
-                  onChange={(event) => setForm({ ...form, email: event.target.value })}
-                  autoComplete="email"
-                />
-                {errors.email && <p className="field-error">{errors.email}</p>}
-              </div>
-
-              <div className="form-field">
-                <FieldLabel htmlFor="company">Company or product name (optional)</FieldLabel>
-                <input
-                  id="company"
-                  name="company"
-                  value={form.company}
-                  onChange={(event) => setForm({ ...form, company: event.target.value })}
-                />
-              </div>
-
-              <fieldset className="form-field form-path">
-                <legend className="form-label">
-                  Where are you right now?
-                  <span className="form-dot" aria-hidden />
-                </legend>
-                <div className="path-options">
-                  {contact.options.map((option) => (
-                    <label
-                      key={option.value}
-                      className={`path-option ${form.path === option.value ? "is-active" : ""}`}
-                    >
-                      <input
-                        type="radio"
-                        name="path"
-                        value={option.value}
-                        checked={form.path === option.value}
-                        onChange={() => {
-                          setForm({ ...form, path: option.value as PathChoice });
-                          onPathSelect(option.value as PathChoice);
-                        }}
-                      />
-                      <span>{option.label}</span>
-                    </label>
-                  ))}
-                </div>
-              </fieldset>
-
-              <div className={`form-field form-message ${errors.message ? "has-error" : ""}`}>
-                <FieldLabel htmlFor="message" required>
-                  Tell us about the idea
-                </FieldLabel>
-                <textarea
-                  id="message"
-                  name="message"
-                  value={form.message}
-                  maxLength={2000}
-                  rows={4}
-                  placeholder={contact.messagePlaceholder}
-                  onChange={(event) => setForm({ ...form, message: event.target.value })}
-                />
-                <p className="char-count">{form.message.length} / 2000</p>
-                {errors.message && <p className="field-error">{errors.message}</p>}
-              </div>
-
-              <div className="honeypot" aria-hidden>
-                <label htmlFor="website">Website</label>
-                <input
-                  id="website"
-                  name="website"
-                  tabIndex={-1}
-                  autoComplete="off"
-                  value={form.website}
-                  onChange={(event) => setForm({ ...form, website: event.target.value })}
-                />
-              </div>
-
-              <div ref={turnstileRef} />
-
-              <div className="form-actions">
-                <button type="submit" className="btn btn-primary btn-lg" disabled={submitting}>
-                  {contact.submit}
-                </button>
-                <a
-                  href={site.whatsapp}
-                  target="_blank"
-                  rel="noopener"
-                  className="btn btn-secondary btn-lg"
-                  onClick={handleWhatsAppClick}
-                >
-                  {contact.whatsapp}
-                </a>
-              </div>
-
-              <p className="form-consent">{contact.consent}</p>
-            </form>
+          <div className={`field ${errors.name ? "has-error" : ""}`}>
+            <label htmlFor="name">Your name</label>
+            <input
+              id="name"
+              name="name"
+              value={form.name}
+              onChange={(event) => setForm({ ...form, name: event.target.value })}
+              autoComplete="name"
+            />
+            {errors.name ? <p className="field-error">{errors.name}</p> : null}
           </div>
-        </Reveal>
+
+          <div className={`field ${errors.email ? "has-error" : ""}`}>
+            <label htmlFor="email">Email</label>
+            <input
+              id="email"
+              name="email"
+              type="email"
+              value={form.email}
+              onChange={(event) => setForm({ ...form, email: event.target.value })}
+              autoComplete="email"
+            />
+            {errors.email ? <p className="field-error">{errors.email}</p> : null}
+          </div>
+
+          <div className="field">
+            <label htmlFor="company">
+              Company or product name <span className="opt">(optional)</span>
+            </label>
+            <input
+              id="company"
+              name="company"
+              value={form.company}
+              onChange={(event) => setForm({ ...form, company: event.target.value })}
+            />
+          </div>
+
+          <div className={`field ${errors.path ? "has-error" : ""}`}>
+            <span className="lbl" id="wl">
+              {contact.pathLabel}
+            </span>
+            <p className="path-helper">{contact.pathHelper}</p>
+            <div className="rows" role="radiogroup" aria-labelledby="wl">
+              {contact.options.map((option) => (
+                <label
+                  key={option.value}
+                  className={`row${form.path === option.value ? " on" : ""}`}
+                >
+                  <input
+                    type="radio"
+                    name="path"
+                    value={option.value}
+                    checked={form.path === option.value}
+                    onChange={() => {
+                      setForm({ ...form, path: option.value });
+                      onPathSelect(option.value);
+                    }}
+                  />
+                  <span className="dot" />
+                  {option.label}
+                </label>
+              ))}
+            </div>
+            {errors.path ? <p className="field-error">{errors.path}</p> : null}
+          </div>
+
+          <div className={`field ${errors.message ? "has-error" : ""}`}>
+            <label htmlFor="message">Tell us about the idea</label>
+            <textarea
+              id="message"
+              name="message"
+              value={form.message}
+              maxLength={2000}
+              placeholder={contact.messagePlaceholder}
+              onChange={(event) => setForm({ ...form, message: event.target.value })}
+            />
+            <span className="count">
+              {form.message.length} / 2000
+            </span>
+            {errors.message ? <p className="field-error">{errors.message}</p> : null}
+          </div>
+
+          <div className="honeypot" aria-hidden>
+            <label htmlFor="website">Website</label>
+            <input
+              id="website"
+              name="website"
+              tabIndex={-1}
+              autoComplete="off"
+              value={form.website}
+              onChange={(event) => setForm({ ...form, website: event.target.value })}
+            />
+          </div>
+
+          <div ref={turnstileRef} />
+
+          <p className="consent">{contact.consent}</p>
+
+          <div className="formfoot">
+            <button type="submit" className="btn" disabled={submitting}>
+              {contact.submit}
+            </button>
+            <span className="form-promise">
+              <VerdictGlyph as="i" />
+              <span>
+                <b>{contact.promiseStrong}</b>
+                {contact.promise.slice(contact.promiseStrong.length)}
+              </span>
+            </span>
+          </div>
+        </form>
       </div>
     </section>
   );

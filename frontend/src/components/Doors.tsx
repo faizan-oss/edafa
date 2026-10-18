@@ -1,125 +1,222 @@
+import { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
-import { doors, serviceImages, type PathChoice } from "../content";
-import { Reveal } from "./Reveal";
-import { ServiceStack } from "./ServiceStack";
+import {
+  doorOrder,
+  doors,
+  serviceImages,
+  type DoorKey,
+} from "../content";
+import { EmNote } from "./EmNote";
+import { ServicePicture } from "./ServicePicture";
+import { VerdictGlyph } from "./VerdictGlyph";
 
 type DoorsProps = {
-  activePath: PathChoice | null;
+  selected: DoorKey;
+  onSelect: (key: DoorKey) => void;
 };
 
-export function Doors({ activePath }: DoorsProps) {
+declare global {
+  interface Window {
+    plausible?: (event: string, options?: { props?: Record<string, string> }) => void;
+  }
+}
+
+function doorCopy(key: DoorKey) {
+  return doors[key];
+}
+
+export function Doors({ selected, onSelect }: DoorsProps) {
+  const stackRef = useRef<HTMLDivElement>(null);
+  const selectedIndex = doorOrder.indexOf(selected);
+
+  useEffect(() => {
+    const stack = stackRef.current;
+    if (!stack) {
+      return;
+    }
+
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const mobileStack = window.matchMedia("(max-width: 960px)");
+    let ticking = false;
+
+    const stackFx = () => {
+      ticking = false;
+      const items = [...stack.querySelectorAll<HTMLElement>(":scope > .stack-item")];
+
+      items.forEach((item, index) => {
+        const card = item.firstElementChild as HTMLElement | null;
+        const next = items[index + 1];
+        if (!card) {
+          return;
+        }
+
+        if (!next || reduce || !mobileStack.matches) {
+          card.style.filter = "";
+          card.style.transform = "";
+          return;
+        }
+
+        const rect = card.getBoundingClientRect();
+        const nextRect = next.getBoundingClientRect();
+        const overlap = Math.max(0, Math.min(1, (rect.bottom - nextRect.top) / rect.height));
+        card.style.filter =
+          overlap > 0
+            ? `blur(${(overlap * 9).toFixed(2)}px) brightness(${(1 - overlap * 0.35).toFixed(3)})`
+            : "";
+        card.style.transform = overlap > 0 ? `scale(${(1 - overlap * 0.05).toFixed(4)})` : "";
+      });
+    };
+
+    const onScroll = () => {
+      if (!ticking) {
+        ticking = true;
+        window.requestAnimationFrame(stackFx);
+      }
+    };
+
+    const onChange = () => stackFx();
+
+    stackFx();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    mobileStack.addEventListener("change", onChange);
+
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      mobileStack.removeEventListener("change", onChange);
+    };
+  }, []);
+
+  function choose(key: DoorKey, focus = false) {
+    onSelect(key);
+    window.plausible?.("service_pick", { props: { service: doorCopy(key).title } });
+    if (focus) {
+      document.getElementById(`pt-${doorOrder.indexOf(key)}`)?.focus();
+    }
+  }
+
+  function onTabKey(event: React.KeyboardEvent, index: number) {
+    if (event.key === "ArrowDown" || event.key === "ArrowRight") {
+      event.preventDefault();
+      choose(doorOrder[(index + 1) % doorOrder.length], true);
+    }
+    if (event.key === "ArrowUp" || event.key === "ArrowLeft") {
+      event.preventDefault();
+      choose(doorOrder[(index + doorOrder.length - 1) % doorOrder.length], true);
+    }
+  }
+
   return (
-    <section id="doors" className="doors" aria-labelledby="doors-heading">
-      <div className="container">
-        <Reveal>
-          <p className="section-label">{doors.section}</p>
-          <h2 id="doors-heading" className="section-heading">
-            {doors.heading}
-          </h2>
-        </Reveal>
+    <section className="sec" id="doors" style={{ paddingTop: "clamp(2rem, 5vw, 3rem)" }}>
+      <div className="wrap">
+        <div className="sec-head">
+          <div>
+            <span className="tag">{doors.section}</span>
+            <h2>{doors.heading}</h2>
+          </div>
+        </div>
 
-        <ServiceStack>
-          <div className="service-stack-item">
-            <Link
-              to="/services/validate-first"
-              className={`door-card service-row ${activePath === "validate" ? "is-active" : ""}`}
-            >
-              <div className="service-card-copy">
-                <span className="door-tag">{doors.validate.tag}</span>
-                <h3>{doors.validate.title}</h3>
-                <p className="door-line">{doors.validate.line}</p>
-                <ul>
-                  {doors.validate.points.map((point) => (
-                    <li key={point}>{point}</li>
-                  ))}
-                </ul>
-                <p className="door-footer">{doors.validate.footer}</p>
-                <span className="path-cta">{doors.validate.cta}</span>
-              </div>
-              <img
-                className="service-card-image"
-                src={serviceImages.validate.src}
-                alt={serviceImages.validate.alt}
-                width={serviceImages.validate.width}
-                height={serviceImages.validate.height}
-                loading="lazy"
-                decoding="async"
-              />
-            </Link>
+        <div className="picker" id="picker">
+          <div className="pick-list" role="tablist" aria-label="Services" aria-orientation="vertical">
+            {doorOrder.map((key, index) => {
+              const copy = doorCopy(key);
+              const on = key === selected;
+              return (
+                <button
+                  key={key}
+                  type="button"
+                  className={`pick${on ? " on" : ""}`}
+                  role="tab"
+                  id={`pt-${index}`}
+                  aria-selected={on}
+                  aria-controls={`pp-${index}`}
+                  tabIndex={on ? 0 : -1}
+                  onClick={() => choose(key)}
+                  onKeyDown={(event) => onTabKey(event, index)}
+                >
+                  <span className="pt">
+                    <span className="tag">{copy.tag}</span>
+                    <span className="pn">{copy.title}</span>
+                    <span className="pl">{copy.line}</span>
+                  </span>
+                  <VerdictGlyph as="i" />
+                </button>
+              );
+            })}
+            <p className="pick-note">{doors.closing}</p>
           </div>
 
-          <div className="service-stack-item">
-            <Link
-              id="build-door"
-              to="/services/build-now"
-              className={`door-card service-row ${activePath === "build" ? "is-active" : ""}`}
-            >
-              <div className="service-card-copy">
-                <span className="door-tag">{doors.build.tag}</span>
-                <h3>{doors.build.title}</h3>
-                <p className="door-line">{doors.build.line}</p>
-                <ul>
-                  {doors.build.points.map((point) => (
-                    <li key={point}>{point}</li>
-                  ))}
-                </ul>
-                <p className="door-footer">{doors.build.footer}</p>
-                <span className="path-cta">{doors.build.cta}</span>
-              </div>
-              <img
-                className="service-card-image"
-                src={serviceImages.build.src}
-                alt={serviceImages.build.alt}
-                width={serviceImages.build.width}
-                height={serviceImages.build.height}
-                loading="lazy"
-                decoding="async"
-              />
-            </Link>
+          <div className="pick-stage">
+            {doorOrder.map((key, index) => {
+              const copy = doorCopy(key);
+              const on = key === selected;
+              return (
+                <article
+                  key={key}
+                  className={`pane${on ? " on" : ""}`}
+                  role="tabpanel"
+                  id={`pp-${index}`}
+                  aria-labelledby={`pt-${index}`}
+                >
+                  <div className="pane-img">
+                    <ServicePicture
+                      image={serviceImages[key]}
+                      sizes="(min-width: 961px) 760px, 92vw"
+                      loading={index === selectedIndex ? "eager" : "lazy"}
+                    />
+                  </div>
+                  <div className="pane-body">
+                    <ul>
+                      {copy.points.map((point) => (
+                        <li key={point}>{point}</li>
+                      ))}
+                    </ul>
+                    <p className="note">
+                      <EmNote text={copy.footer} em={copy.footerEm} />
+                    </p>
+                    <Link className="btn" to={copy.href}>
+                      {copy.cta}
+                    </Link>
+                  </div>
+                </article>
+              );
+            })}
           </div>
+        </div>
 
-          <div className="service-stack-item">
-            <Link to="/services/fix-whats-broken" className="door-short service-row">
-              <div className="service-card-copy">
-                <span className="door-tag">{doors.fix.tag}</span>
-                <h3>{doors.fix.title}</h3>
-                <p>{doors.fix.line}</p>
-                <span className="path-cta">{doors.fix.link}</span>
+        <div className="stack-list" ref={stackRef}>
+          {doorOrder.map((key, index) => {
+            const copy = doorCopy(key);
+            return (
+              <div key={key} className="stack-item" style={{ ["--i" as string]: index }}>
+                <article className="scard" id={key === "build" ? "build-door" : undefined}>
+                  <div className="txt">
+                    <span className="tag">{copy.tag}</span>
+                    <h3>{copy.title}</h3>
+                    <p className="who">{copy.line}</p>
+                    <ul>
+                      {copy.points.map((point) => (
+                        <li key={point}>{point}</li>
+                      ))}
+                    </ul>
+                    <p className="note">
+                      <EmNote text={copy.footer} em={copy.footerEm} />
+                    </p>
+                    <Link className="btn" to={copy.href}>
+                      {copy.cta}
+                    </Link>
+                  </div>
+                  <div className="img">
+                    <ServicePicture
+                      image={serviceImages[key]}
+                      sizes="(max-width: 960px) 92vw, 540px"
+                    />
+                  </div>
+                </article>
               </div>
-              <img
-                className="service-card-image"
-                src={serviceImages.fix.src}
-                alt={serviceImages.fix.alt}
-                width={serviceImages.fix.width}
-                height={serviceImages.fix.height}
-                loading="lazy"
-                decoding="async"
-              />
-            </Link>
-          </div>
-
-          <div className="service-stack-item">
-            <Link to="/services/keep-it-running" className="door-short service-row">
-              <div className="service-card-copy">
-                <span className="door-tag">{doors.keep.tag}</span>
-                <h3>{doors.keep.title}</h3>
-                <p>{doors.keep.line}</p>
-                <span className="path-cta">{doors.keep.link}</span>
-              </div>
-              <img
-                className="service-card-image"
-                src={serviceImages.keep.src}
-                alt={serviceImages.keep.alt}
-                width={serviceImages.keep.width}
-                height={serviceImages.keep.height}
-                loading="lazy"
-                decoding="async"
-              />
-            </Link>
-          </div>
-        </ServiceStack>
-
-        <p className="doors-closing">{doors.closing}</p>
+            );
+          })}
+        </div>
+        <p className="doors-note">{doors.closing}</p>
       </div>
     </section>
   );

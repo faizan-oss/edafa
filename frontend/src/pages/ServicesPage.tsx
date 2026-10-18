@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { doors, serviceHub, serviceImages, services } from "../content";
 import { Footer } from "../components/Footer";
 import { Header } from "../components/Header";
+import { ServicePicture } from "../components/ServicePicture";
 import { ServiceStack } from "../components/ServiceStack";
 
 const doorCopy = {
@@ -35,15 +36,12 @@ export function ServicesPage() {
                       <p>{door.line}</p>
                       <span className="path-cta">See how that works</span>
                     </div>
-                    <img
-                      className="service-card-image"
-                      src={image.src}
-                      alt={image.alt}
-                      width={image.width}
-                      height={image.height}
-                      loading="lazy"
-                      decoding="async"
-                    />
+                    <div className="service-card-image">
+                      <ServicePicture
+                        image={image}
+                        sizes="(max-width: 767px) 92vw, 420px"
+                      />
+                    </div>
                   </Link>
                 </div>
               );

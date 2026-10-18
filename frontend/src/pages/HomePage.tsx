@@ -6,15 +6,22 @@ import { Doors } from "../components/Doors";
 import { Footer } from "../components/Footer";
 import { Header } from "../components/Header";
 import { Hero } from "../components/Hero";
+import { WhatHappensNext } from "../components/WhatHappensNext";
 import { WhoWeAre } from "../components/WhoWeAre";
 import { WhyUs } from "../components/WhyUs";
-import { contact, type PathChoice } from "../content";
+import { contact, type DoorKey, type PathChoice } from "../content";
 
 const pathValues = new Set<string>(contact.options.map((option) => option.value));
+
+function scrollToId(id: string) {
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  document.getElementById(id)?.scrollIntoView({ behavior: reduce ? "auto" : "smooth" });
+}
 
 export function HomePage() {
   const [params] = useSearchParams();
   const [selectedPath, setSelectedPath] = useState<PathChoice | null>(null);
+  const [pickerService, setPickerService] = useState<DoorKey>("validate");
 
   useEffect(() => {
     const path = params.get("path");
@@ -59,21 +66,20 @@ export function HomePage() {
   return (
     <>
       <Header />
-      <main>
+      <main id="top">
         <Hero
-          onTellUs={() => {
-            setSelectedPath("validate");
-            document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
-          }}
+          onTellUs={() => scrollToId("contact")}
           onSkipToBuild={() => {
-            setSelectedPath("build");
-            document.getElementById("build-door")?.scrollIntoView({ behavior: "smooth" });
+            setPickerService("build");
+            window.plausible?.("service_pick", { props: { service: "Build now" } });
+            scrollToId("doors");
           }}
         />
-        <Doors activePath={selectedPath} />
+        <Doors selected={pickerService} onSelect={setPickerService} />
         <WhyUs />
         <WhoWeAre />
         <BeforeYouHire />
+        <WhatHappensNext onTellUs={() => scrollToId("contact")} />
         <ContactForm selectedPath={selectedPath} onPathSelect={setSelectedPath} />
       </main>
       <Footer />

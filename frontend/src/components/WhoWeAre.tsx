@@ -1,17 +1,24 @@
 import { whoWeAre } from "../content";
-import { Reveal } from "./Reveal";
 
 export function WhoWeAre() {
   return (
-    <section id="who" className="who-we-are" aria-labelledby="who-heading">
-      <div className="container who-copy">
-        <Reveal>
-          <p className="section-label">{whoWeAre.section}</p>
-          <h2 id="who-heading" className="section-heading who-heading">
-            {whoWeAre.heading}
-          </h2>
-          <p className="who-body">{whoWeAre.body}</p>
-        </Reveal>
+    <section className="sec" id="who" aria-labelledby="who-heading">
+      <div className="wrap who-grid">
+        <div>
+          <span className="tag">{whoWeAre.section}</span>
+          <h2 id="who-heading">{whoWeAre.heading}</h2>
+        </div>
+        <div>
+          <p>{whoWeAre.body}</p>
+          <div className="stack" aria-label="What we work with">
+            {whoWeAre.stack.map((item) => (
+              <div key={`${item.name}-${item.label}`}>
+                <b>{item.name}</b>
+                <span>{item.label}</span>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </section>
   );

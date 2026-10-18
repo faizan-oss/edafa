@@ -1,40 +1,51 @@
+import { Link } from "react-router-dom";
 import { beforeYouHire } from "../content";
-import { Reveal } from "./Reveal";
+import { VerdictGlyph } from "./VerdictGlyph";
 
 export function BeforeYouHire() {
   return (
-    <section id="before" className="before" aria-labelledby="before-heading">
-      <div className="container">
-        <Reveal>
-          <p className="section-label">{beforeYouHire.section}</p>
-          <h2 id="before-heading" className="section-heading">
-            {beforeYouHire.heading}
-          </h2>
-          <p className="before-intro">{beforeYouHire.intro}</p>
-        </Reveal>
-
-        <div className="before-grid">
-          <Reveal>
-            <article className="before-col">
-              <h3>{beforeYouHire.forYou.title}</h3>
-              <ul>
-                {beforeYouHire.forYou.items.map((item) => (
-                  <li key={item}>{item}</li>
-                ))}
-              </ul>
-            </article>
-          </Reveal>
-          <Reveal delay={80}>
-            <article className="before-col is-skip">
-              <h3>{beforeYouHire.skip.title}</h3>
-              <ul>
-                {beforeYouHire.skip.items.map((item) => (
-                  <li key={item}>{item}</li>
-                ))}
-              </ul>
-            </article>
-          </Reveal>
+    <section className="sec byhu" id="before" aria-labelledby="before-heading">
+      <div className="wrap byhu-grid">
+        <div>
+          <span className="tag">{beforeYouHire.section}</span>
+          <h2 id="before-heading">{beforeYouHire.heading}</h2>
+          <p className="intro">{beforeYouHire.intro}</p>
+          <p className="skiplabel">{beforeYouHire.skip.title}</p>
+          <ul className="skiplist">
+            {beforeYouHire.skip.items.map((item) => (
+              <li key={item}>
+                <VerdictGlyph as="i" />
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
         </div>
+
+        <aside className="readcard">
+          <h3>{beforeYouHire.readCard.title}</h3>
+          <p className="lede">{beforeYouHire.readCard.lede}</p>
+          <ol>
+            {beforeYouHire.readCard.links.map((link) => (
+              <li key={link.href}>
+                <Link to={link.href}>
+                  <span className="n">{link.number}</span>
+                  {link.label}
+                </Link>
+              </li>
+            ))}
+          </ol>
+          <Link
+            className="fitcta"
+            to={beforeYouHire.readCard.fit.href}
+            onClick={() => window.plausible?.("fit_check_click")}
+          >
+            <VerdictGlyph as="i" />
+            <div>
+              <b>{beforeYouHire.readCard.fit.title}</b>
+              <span>{beforeYouHire.readCard.fit.sub}</span>
+            </div>
+          </Link>
+        </aside>
       </div>
     </section>
   );

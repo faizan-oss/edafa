@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
-import { serviceFaqs, serviceNext, serviceShared, services } from "../content";
+import { serviceFaqs, serviceNext, services } from "../content";
 import { Footer } from "../components/Footer";
 import { Header } from "../components/Header";
 
@@ -16,6 +16,12 @@ export function ServicePage() {
     window.scrollTo(0, 0);
   }, [slug]);
 
+  useEffect(() => {
+    if (service) {
+      document.title = `${service.title} · idaafa`;
+    }
+  }, [service]);
+
   return (
     <>
       <Header />
@@ -27,7 +33,7 @@ export function ServicePage() {
 
           {service ? (
             <article>
-              <p className="section-label">+ Service {service.number}</p>
+              <p className="section-label">Service {service.number}</p>
               <h1>{service.title}</h1>
               <p className="service-page-line">{service.line}</p>
               <p className="service-page-body">{service.body}</p>
@@ -49,15 +55,6 @@ export function ServicePage() {
               {"footer" in service && service.footer ? (
                 <p className="service-footer-line">{service.footer}</p>
               ) : null}
-
-              <section className="service-group">
-                <h2>{serviceShared.owns.heading}</h2>
-                <p className="service-page-body">{serviceShared.owns.body}</p>
-              </section>
-              <section className="service-group">
-                <h2>{serviceShared.cost.heading}</h2>
-                <p className="service-page-body">{serviceShared.cost.body}</p>
-              </section>
 
               {faqs ? (
                 <section className="service-faq" aria-labelledby="faq-heading">
@@ -94,7 +91,7 @@ export function ServicePage() {
             </article>
           ) : (
             <>
-              <h1>That service isn't here.</h1>
+              <h1>That service isn&apos;t here.</h1>
               <p className="service-page-body">The four ways in are on the services page.</p>
               <Link to="/services" className="btn btn-primary btn-lg">
                 All services
