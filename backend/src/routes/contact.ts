@@ -1,9 +1,9 @@
 import { Router, type Request, type Response } from "express";
-import { insertLead } from "../db.js";
-import { sendLeadEmails } from "../email.js";
-import { isRateLimited } from "../rateLimit.js";
-import { verifyTurnstile } from "../turnstile.js";
-import { contactSchema, formatValidationErrors } from "../validation.js";
+import { insertLead } from "../db";
+import { sendLeadEmails } from "../email";
+import { isRateLimited } from "../rateLimit";
+import { verifyTurnstile } from "../turnstile";
+import { contactSchema, formatValidationErrors } from "../validation";
 
 export const contactRouter = Router();
 

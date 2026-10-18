@@ -1,8 +1,8 @@
 import cors from "cors";
 import express from "express";
-import { config } from "./config.js";
-import { connectDb } from "./db.js";
-import { contactRouter } from "./routes/contact.js";
+import { config } from "./config";
+import { connectDb } from "./db";
+import { contactRouter } from "./routes/contact";
 
 let dbReady: Promise<unknown> | null = null;
 

@@ -1,4 +1,4 @@
-import { config } from "./config.js";
+import { config } from "./config";
 
 export async function verifyTurnstile(token: string, remoteIp?: string): Promise<boolean> {
   if (!config.turnstileSecretKey) {

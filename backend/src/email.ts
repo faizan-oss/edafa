@@ -1,5 +1,5 @@
 import { Resend } from "resend";
-import { config } from "./config.js";
+import { config } from "./config";
 
 const pathLabels: Record<string, string> = {
   validate: "Validate first",

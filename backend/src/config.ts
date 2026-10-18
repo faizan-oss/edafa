@@ -1,6 +1,6 @@
 import dotenv from "dotenv";
 
-// Local only — Vercel injects env vars itself.
+// Local only. Vercel injects env vars itself.
 if (!process.env.VERCEL) {
   dotenv.config();
 }

@@ -1,6 +1,6 @@
-import { config } from "./config.js";
-import app from "./app.js";
-import { closeDb, connectDb } from "./db.js";
+import { config } from "./config";
+import app from "./app";
+import { closeDb, connectDb } from "./db";
 
 async function start() {
   await connectDb();
