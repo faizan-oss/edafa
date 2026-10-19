@@ -20,6 +20,12 @@ function escapeHtml(value: string) {
     .replaceAll('"', "&quot;");
 }
 
+function logoUrl() {
+  const base = config.siteUrl.replace(/\/$/, "");
+  // PNG: many inboxes strip SVG from <img>.
+  return `${base}/brand/idaafa-logo-on-dark.png`;
+}
+
 function emailShell(preheader: string, content: string) {
   return `<!DOCTYPE html>
 <html lang="en">
@@ -30,8 +36,14 @@ function emailShell(preheader: string, content: string) {
         <td align="center">
           <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;background:#2e1a35;border:1px solid #432f4a;border-radius:20px;">
             <tr>
-              <td style="padding:36px 36px 8px;font-family:Georgia,'Times New Roman',serif;font-size:28px;line-height:1;color:#f4eef2;">
-                <span style="color:#e9a23c;font-family:Consolas,monospace;font-size:22px;">+</span> idaafa
+              <td style="padding:36px 36px 8px;">
+                <img
+                  src="${logoUrl()}"
+                  alt="idaafa"
+                  width="140"
+                  height="45"
+                  style="display:block;width:140px;height:auto;border:0;outline:none;text-decoration:none;"
+                />
               </td>
             </tr>
             ${content}
